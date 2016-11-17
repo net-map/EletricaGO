@@ -1,6 +1,7 @@
 package map.net.eletricago.fragments;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.livotov.labs.android.camview.CameraLiveView;
 import map.net.eletricago.R;
+import pl.droidsonroids.gif.GifImageView;
+import pl.droidsonroids.gif.InputSource;
 
 /**
  * This fragment shows the camera view
@@ -18,6 +21,9 @@ public class CameraFragment extends android.app.Fragment {
 
     @BindView(R.id.camView)
     CameraLiveView mCamera;
+
+    @BindView(R.id.pokemonGifImageView)
+    GifImageView mPokemonGifImageView;
 
 
     public CameraFragment() {
@@ -33,7 +39,13 @@ public class CameraFragment extends android.app.Fragment {
 
         mCamera.startCamera();
 
+        setPokemonGif("a");
+
         return view;
+    }
+
+    void setPokemonGif(String pokemonName){
+        mPokemonGifImageView.setImageResource(R.drawable.pikachu);
     }
 
 

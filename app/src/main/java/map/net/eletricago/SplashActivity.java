@@ -1,9 +1,18 @@
 package map.net.eletricago;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -12,6 +21,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Dexter.initialize(this);
 
         View decorView = getWindow().getDecorView();
         // Hide both the navigation bar and the status bar.
@@ -27,8 +37,22 @@ public class SplashActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_FULLSCREEN;
         }
         decorView.setSystemUiVisibility(uiOptions);
+        Dexter.checkPermissions(
+                new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        goToMainActivity();
+                    }
 
-        goToMainActivity();
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                    }
+                },
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        );
+
+
 
     }
 

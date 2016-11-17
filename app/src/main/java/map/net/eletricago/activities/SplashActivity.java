@@ -1,4 +1,4 @@
-package map.net.eletricago;
+package map.net.eletricago.activities;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.util.List;
+
+import map.net.eletricago.R;
 
 public class SplashActivity extends AppCompatActivity {
 

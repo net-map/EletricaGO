@@ -1,4 +1,4 @@
-package map.net.eletricago;
+package map.net.eletricago.activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import map.net.eletricago.R;
 import map.net.eletricago.fragments.CameraFragment;
 
 public class MainActivity extends AppCompatActivity {

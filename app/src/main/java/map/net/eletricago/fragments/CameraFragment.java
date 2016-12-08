@@ -1,7 +1,6 @@
 package map.net.eletricago.fragments;
 
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import butterknife.ButterKnife;
 import eu.livotov.labs.android.camview.CameraLiveView;
 import map.net.eletricago.R;
 import pl.droidsonroids.gif.GifImageView;
-import pl.droidsonroids.gif.InputSource;
 
 /**
  * This fragment shows the camera view

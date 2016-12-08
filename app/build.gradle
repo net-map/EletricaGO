@@ -24,12 +24,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:support-v4:24.2.1'
-    compile('eu.livotov.labs.android:CAMView:2.0.1@aar') { transitive = true }
     compile 'com.jakewharton:butterknife:8.4.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.karumi:dexter:2.3.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
 }

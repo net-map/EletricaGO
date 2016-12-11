@@ -13,10 +13,11 @@
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/pokemonGifImageView"
-        android:layout_width="240dp"
-        android:layout_height="254dp"
-        android:layout_marginTop="113dp"
+        android:layout_width="150dp"
+        android:layout_marginTop="154dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"/>
 
 </RelativeLayout>

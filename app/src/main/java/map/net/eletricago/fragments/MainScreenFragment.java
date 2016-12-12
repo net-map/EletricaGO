@@ -7,12 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import map.net.eletricago.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MainScreenFragment extends Fragment {
+public class MainScreenFragment extends android.app.Fragment {
 
 
     public MainScreenFragment() {
@@ -23,8 +21,12 @@ public class MainScreenFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_screen, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
+        ButterKnife.bind(this, view);
+
+
+        return view;
     }
 
 }

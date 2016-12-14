@@ -8,6 +8,7 @@ import android.view.View;
 
 import map.net.eletricago.R;
 import map.net.eletricago.fragments.CameraFragment;
+import map.net.eletricago.fragments.MainScreenFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        CameraFragment cameraFragment = new CameraFragment();
+        MainScreenFragment mainScreenFragment = new MainScreenFragment();
 
-        fragmentTransaction.add(R.id.mainFragment, cameraFragment);
+        fragmentTransaction.add(R.id.mainFragment, mainScreenFragment);
         fragmentTransaction.commit();
     }
 

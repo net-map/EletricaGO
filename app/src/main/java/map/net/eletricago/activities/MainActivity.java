@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentTransaction.add(R.id.mainFragment, mainScreenFragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 

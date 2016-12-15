@@ -3,14 +3,20 @@ package map.net.eletricago.fragments;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -19,15 +25,25 @@ import com.jayway.jsonpath.spi.mapper.JacksonMappingProvider;
 import com.sromku.simple.storage.SimpleStorage;
 import com.sromku.simple.storage.Storage;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import map.net.eletricago.R;
 import map.net.eletricago.classes.Pokemon;
+import map.net.eletricago.classes.ResultResponse;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainScreenFragment extends android.app.Fragment {
 
@@ -46,11 +62,52 @@ public class MainScreenFragment extends android.app.Fragment {
     @BindView(R.id.captureButton)
     Button captureButton;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    WifiManager wManager;
+    String currentZone = "";
+
+    Pokemon pokemon;
+    AcquireCurrentZoneFromServer acquireCurrentZoneFromServer;
+
+
+    public CountDownTimer setTimer(final float totalTime, final OkHttpClient client) {
+
+        return new CountDownTimer((long) (totalTime * 1000), (long) totalTime) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                progressBar.setProgress((int) (totalTime * 1000 - millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+
+                if (wManager.startScan()) {
+
+                    try {
+                        acquireCurrentZoneFromServer.run(client, wManager.getScanResults());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }
+
+
+        }.start();
+
+
+    }
 
 
     public MainScreenFragment() {
         // Required empty public constructor
     }
+
+
 
 
     @Override
@@ -61,8 +118,21 @@ public class MainScreenFragment extends android.app.Fragment {
         ButterKnife.bind(this, view);
 
 
-        final Pokemon pokemon = loadPokemonDataJSON("Corredor biblioteca");
-        setMiniatureNameStatus(pokemon);
+
+        final OkHttpClient client = new OkHttpClient();
+        wManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        acquireCurrentZoneFromServer = new AcquireCurrentZoneFromServer();
+
+        try {
+            acquireCurrentZoneFromServer.run(client, wManager.getScanResults());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        progressBar.setMax((int) (5.0f * 1000));
+
+        setTimer(5.0f,client);
+
 
         captureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -75,7 +145,6 @@ public class MainScreenFragment extends android.app.Fragment {
 
             }
         });
-
 
 
         return view;
@@ -95,7 +164,7 @@ public class MainScreenFragment extends android.app.Fragment {
 
         Pokemon pokemon = new Pokemon();
         try {
-            JSONObject pokemonJSON = new JSONObject(pokemonString.substring(1, pokemonString.length()-1));
+            JSONObject pokemonJSON = new JSONObject(pokemonString.substring(1, pokemonString.length() - 1));
             pokemon.setName(pokemonJSON.getString("name"));
             pokemon.setFile_name(pokemonJSON.getString("file_name"));
             pokemon.setZone(pokemonJSON.getString("zone"));
@@ -107,9 +176,9 @@ public class MainScreenFragment extends android.app.Fragment {
         return pokemon;
     }
 
-    private void setMiniatureNameStatus(Pokemon pokemon){
+    private void setMiniatureNameStatus(Pokemon pokemon) {
         try {
-            Drawable drawable = Drawable.createFromStream(getActivity().getAssets().open("pokemon_miniature/"+pokemon.getFile_name()+".png"), null);
+            Drawable drawable = Drawable.createFromStream(getActivity().getAssets().open("pokemon_miniature/" + pokemon.getFile_name() + ".png"), null);
             pokemonMiniatureImageView.setImageDrawable(drawable);
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,15 +186,101 @@ public class MainScreenFragment extends android.app.Fragment {
 
         pokemonNameTextView.setText(pokemon.getName());
 
-        String captureStatus ="";
-        if(pokemon.getCaptured()){
+        String captureStatus = "";
+        if (pokemon.getCaptured()) {
             captureStatus = "Já capturado!";
-        }
-        else{
+        } else {
             captureStatus = "Não capturado!";
         }
         capturedTextView.setText(captureStatus);
 
+    }
+
+    private class AcquireCurrentZoneFromServer {
+
+        void run(final OkHttpClient client, List<ScanResult> accessPoints) throws Exception {
+
+
+
+            JSONObject requestBodyJSON = new JSONObject();
+            JSONObject apJSON;
+            JSONArray acquisitionsJSONArray = new JSONArray();
+
+            requestBodyJSON.put("facility_id", "58516e3cbde5c66ca85ab58f");
+            for (ScanResult ap : accessPoints) {
+                apJSON = new JSONObject();
+                apJSON.put("BSSID", ap.BSSID);
+                apJSON.put("RSSI", ap.level);
+                acquisitionsJSONArray.put(apJSON);
+            }
+
+            requestBodyJSON.put("access_points", acquisitionsJSONArray);
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody requestBody = RequestBody.create(JSON, String.valueOf(requestBodyJSON));
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.predict_zone_url))
+                    .post(requestBody)
+                    .build();
+
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(getActivity(),
+                                    "Something went wrong, try again later", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast toast = Toast.makeText(getActivity(),
+                                        "Something went wrong, try again later", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        });
+                        throw new IOException("Unexpected code " + response);
+                    }
+
+                    currentZone = response.body().string();
+                    currentZone = currentZone.substring(2, currentZone.length() - 2);
+
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ResultResponse resultResponse = new ResultResponse();
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = new JSONObject(currentZone.replace("\\", ""));
+                                resultResponse.setZonaName(jsonObject.getString("ZonaName"));
+                                resultResponse.setConfidence(String.valueOf(jsonObject.getDouble("Confidence")));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            zoneNameTextView.setText(resultResponse.getZonaName());
+                            pokemon = loadPokemonDataJSON(resultResponse.getZonaName());
+                            setMiniatureNameStatus(pokemon);
+                            setTimer(5.0f,client);
+
+                        }
+                    });
+                    response.close();
+                }
+            });
+        }
     }
 
 }

@@ -3,6 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25
     buildToolsVersion "24.0.3"
+    dexOptions {
+        preDexLibraries = false
+    }
     defaultConfig {
         applicationId "map.net.eletricago"
         minSdkVersion 16
@@ -16,6 +19,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    defaultConfig {
+
+        multiDexEnabled true // Enabling multidex support.
+    }
+
+    dexOptions {
+        //you can speed up your builds by turning on incremental dexing
+
+        //you can specify the heap size for the dex process
+        javaMaxHeapSize "4g"
     }
 
     packagingOptions {
@@ -44,7 +59,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.karumi:dexter:2.3.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'
-    compile 'com.jayway.jsonpath:json-path:2.2.0'
+    compile ('com.jayway.jsonpath:json-path:2.2.0') { exclude group: 'org.ow2.asm' }
     compile 'com.sromku:simple-storage:1.2.0'
     compile 'com.afollestad.material-dialogs:core:0.9.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'

@@ -73,15 +73,28 @@ public class MainScreenFragment extends android.app.Fragment {
 
     Pokemon pokemon;
     AcquireCurrentZoneFromServer acquireCurrentZoneFromServer;
+    CountDownTimer timer;
 
 
     public CountDownTimer setTimer(final float totalTime, final OkHttpClient client) {
 
-        return new CountDownTimer((long) (totalTime * 1000), (long) totalTime) {
+        return new CountDownTimer((long) (totalTime * 1000), 1) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 progressBar.setProgress((int) (totalTime * 1000 - millisUntilFinished));
+                if(currentZone.equals("")){
+                    captureButton.setVisibility(View.GONE);
+                    pokemonNameTextView.setVisibility(View.GONE);
+                    capturedTextView.setVisibility(View.GONE);
+                    zoneNameTextView.setText("AGUARDANDO SERVIDOR");
+
+                }
+                else{
+                    captureButton.setVisibility(View.VISIBLE);
+                    pokemonNameTextView.setVisibility(View.VISIBLE);
+                    capturedTextView.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -96,6 +109,7 @@ public class MainScreenFragment extends android.app.Fragment {
                     }
 
                 }
+                this.cancel();
 
             }
 
@@ -134,14 +148,16 @@ public class MainScreenFragment extends android.app.Fragment {
 
         progressBar.setMax((int) (5.0f * 1000));
 
-        setTimer(5.0f,client);
 
 
         captureButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(timer!=null){
+                    timer.cancel();
+                }
+
                 Fragment cameraFragment = CameraFragment.newInstance(pokemon);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
 
                 transaction.add(R.id.mainFragment, cameraFragment);
                 transaction.commit();
@@ -151,9 +167,13 @@ public class MainScreenFragment extends android.app.Fragment {
 
         pokedexButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if(timer!=null){
+                    timer.cancel();
+                }
+
+
                 Fragment listFragment = new ListFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
 
                 transaction.add(R.id.mainFragment, listFragment);
                 transaction.commit();
@@ -288,7 +308,10 @@ public class MainScreenFragment extends android.app.Fragment {
                             zoneNameTextView.setText(resultResponse.getZonaName());
                             pokemon = loadPokemonDataJSON(resultResponse.getZonaName());
                             setMiniatureNameStatus(pokemon);
-                            setTimer(5.0f,client);
+                            if(timer != null){
+                                timer.cancel();
+                            }
+                            timer = setTimer(5.0f,client);
 
                         }
                     });

@@ -1,11 +1,15 @@
 package map.net.eletricago.fragments;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jayway.jsonpath.JsonPath;
 import com.sromku.simple.storage.SimpleStorage;
 import com.sromku.simple.storage.Storage;
@@ -27,6 +31,10 @@ public class ListFragment extends android.app.Fragment{
     @BindView(R.id.pokedexList)
     ListView pokedexListView;
 
+    @BindView(R.id.backButton)
+    Button backButton;
+
+
     public ListFragment(){
         // Must be empty
     }
@@ -39,6 +47,18 @@ public class ListFragment extends android.app.Fragment{
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         ButterKnife.bind(this, view);
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Fragment mainScreenFragment = new MainScreenFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+
+                transaction.add(R.id.mainFragment, mainScreenFragment);
+                transaction.commit();
+
+            }
+        });
 
         Storage storage = SimpleStorage.getInternalStorage(getActivity());
 

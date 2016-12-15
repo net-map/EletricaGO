@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

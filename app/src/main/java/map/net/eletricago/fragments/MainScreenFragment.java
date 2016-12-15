@@ -35,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import map.net.eletricago.R;
-import map.net.eletricago.classes.Pokemon;
+import map.net.eletricago.classes.Pokemon.Pokemon;
 import map.net.eletricago.classes.ResultResponse;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -64,6 +64,9 @@ public class MainScreenFragment extends android.app.Fragment {
 
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
+    @BindView(R.id.buttonPokedex)
+    Button pokedexButton;
 
     WifiManager wManager;
     String currentZone = "";
@@ -141,6 +144,18 @@ public class MainScreenFragment extends android.app.Fragment {
 
 
                 transaction.add(R.id.mainFragment, cameraFragment);
+                transaction.commit();
+
+            }
+        });
+
+        pokedexButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment listFragment = new ListFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+
+                transaction.add(R.id.mainFragment, listFragment);
                 transaction.commit();
 
             }

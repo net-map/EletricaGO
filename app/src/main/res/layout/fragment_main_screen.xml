@@ -21,7 +21,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:textColor="#000"
             android:textStyle="bold"
-            android:id="@+id/button"
+            android:id="@+id/buttonPokedex"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp" />
@@ -65,8 +65,8 @@
             android:textStyle="bold"
             android:id="@+id/captureButton"
             android:layout_below="@+id/pokemonMiniature"
-            android:layout_alignLeft="@+id/button"
-            android:layout_alignStart="@+id/button"
+            android:layout_alignLeft="@+id/buttonPokedex"
+            android:layout_alignStart="@+id/buttonPokedex"
             android:layout_marginTop="16dp" />
 
         <TextView

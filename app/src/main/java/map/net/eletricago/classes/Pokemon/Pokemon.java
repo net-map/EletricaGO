@@ -1,4 +1,4 @@
-package map.net.eletricago.classes;
+package map.net.eletricago.classes.Pokemon;
 
 import java.io.Serializable;
 

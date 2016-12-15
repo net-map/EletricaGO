@@ -26,7 +26,7 @@ import map.net.eletricago.R;
 import map.net.eletricago.classes.Pokemon.Pokemon;
 import map.net.eletricago.classes.Pokemon.PokemonAdapter;
 
-public class ListFragment extends android.app.Fragment{
+public class ListFragment extends android.app.Fragment {
 
     @BindView(R.id.pokedexList)
     ListView pokedexListView;
@@ -35,7 +35,7 @@ public class ListFragment extends android.app.Fragment{
     Button backButton;
 
 
-    public ListFragment(){
+    public ListFragment() {
         // Must be empty
     }
 
@@ -64,24 +64,22 @@ public class ListFragment extends android.app.Fragment{
 
         String content = storage.readTextFile("pokemon_data", "pokemon_data_1.0");
 
-        List<Pokemon>  pokemonList = new ArrayList<>();
+        List<Pokemon> pokemonList = new ArrayList<>();
 
         int listLenght = JsonPath.parse(content).read("$.pokemons.length()");
 
         final PokemonAdapter adapter = new PokemonAdapter(getActivity(), pokemonList);
 
-        for(int i =0; i< listLenght; i++){
-            try {
-                JSONObject pokemonJSONInPosition = new JSONObject(JsonPath.parse(content).read("$.pokemons["+String.valueOf(i)+"]").toString());
-                Pokemon pokemonInPosition = new Pokemon();
-                pokemonInPosition.setName(pokemonJSONInPosition.getString("name"));
-                pokemonInPosition.setFile_name(pokemonJSONInPosition.getString("file_name"));
-                pokemonInPosition.setZone(pokemonJSONInPosition.getString("zone"));
-                pokemonInPosition.setCaptured(pokemonJSONInPosition.getBoolean("captured"));
-                pokemonList.add(pokemonInPosition);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for (int i = 0; i < listLenght; i++) {
+
+
+            Pokemon pokemonInPosition = new Pokemon();
+            pokemonInPosition.setName(JsonPath.parse(content).read("$.pokemons[" + String.valueOf(i) + "].name").toString());
+            pokemonInPosition.setFile_name(JsonPath.parse(content).read("$.pokemons[" + String.valueOf(i) + "].file_name").toString());
+            pokemonInPosition.setZone(JsonPath.parse(content).read("$.pokemons[" + String.valueOf(i) + "].zone").toString());
+            pokemonInPosition.setCaptured(Boolean.parseBoolean(JsonPath.parse(content).read("$.pokemons[" + String.valueOf(i) + "].captured").toString()));
+            pokemonList.add(pokemonInPosition);
+
         }
 
         pokedexListView.setAdapter(adapter);

@@ -1,6 +1,8 @@
 package map.net.eletricago.classes;
 
-public class Pokemon {
+import java.io.Serializable;
+
+public class Pokemon implements Serializable {
     String name;
     String file_name;
     String zone;

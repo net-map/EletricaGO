@@ -13,6 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.livotov.labs.android.camview.CameraLiveView;
 import map.net.eletricago.R;
+import map.net.eletricago.classes.Pokemon;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -28,20 +29,33 @@ public class CameraFragment extends android.app.Fragment {
     GifImageView mPokemonGifImageView;
 
 
-    public CameraFragment() {
+    public CameraFragment()  {
         // Required empty public constructor
+    }
+
+    public static CameraFragment newInstance(Pokemon pokemon){
+        CameraFragment fragment = new CameraFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("pokemon", pokemon);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         ButterKnife.bind(this, view);
 
         mCamera.startCamera();
 
-        setPokemonGif("pikachu");
+        Pokemon mPokemon = (Pokemon) getArguments().getSerializable(
+                "pokemon");
+
+        setPokemonGif(mPokemon.getFile_name());
 
         return view;
     }

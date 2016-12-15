@@ -1,11 +1,14 @@
 package map.net.eletricago.fragments;
 
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +43,9 @@ public class MainScreenFragment extends android.app.Fragment {
     @BindView(R.id.zoneName)
     TextView zoneNameTextView;
 
+    @BindView(R.id.captureButton)
+    Button captureButton;
+
 
 
     public MainScreenFragment() {
@@ -55,8 +61,22 @@ public class MainScreenFragment extends android.app.Fragment {
         ButterKnife.bind(this, view);
 
 
-        Pokemon pokemon = loadPokemonDataJSON("Corredor biblioteca");
+        final Pokemon pokemon = loadPokemonDataJSON("Corredor biblioteca");
         setMiniatureNameStatus(pokemon);
+
+        captureButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Fragment cameraFragment = CameraFragment.newInstance(pokemon);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+
+                transaction.add(R.id.mainFragment, cameraFragment);
+                transaction.commit();
+
+            }
+        });
+
+
 
         return view;
     }

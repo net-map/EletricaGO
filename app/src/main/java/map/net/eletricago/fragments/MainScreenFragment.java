@@ -87,7 +87,7 @@ public class MainScreenFragment extends android.app.Fragment {
                 .mappingProvider(new JacksonMappingProvider())
                 .build();
 
-                Storage storage = SimpleStorage.getInternalStorage(getActivity());
+        Storage storage = SimpleStorage.getInternalStorage(getActivity());
 
         String content = storage.readTextFile("pokemon_data", "pokemon_data_1.0");
 

@@ -1,0 +1,88 @@
+{
+  "pokemons": [
+    {
+      "name": "Butterfree",
+      "file_name": "butterfree",
+      "zone": "Vão de entrada",
+      "captured": false
+    },
+    {
+      "name": "Snorlax",
+      "file_name": "snorlax",
+      "zone": "Lanchonete",
+      "captured": false
+    },
+    {
+      "name": "Voltorb",
+      "file_name": "voltorb",
+      "zone": "Anfiteatro",
+      "captured": false
+    },
+    {
+      "name": "Bulbasaur",
+      "file_name": "bulbasaur",
+      "zone": "Corredor biblioteca",
+      "captured": false
+    },
+    {
+      "name": "Dragonite",
+      "file_name": "dragonite",
+      "zone": "Biblioteca",
+      "captured": false
+    },
+    {
+      "name": "Ratatta",
+      "file_name": "ratatta",
+      "zone": "Corredor superior bloco B",
+      "captured": false
+    },
+    {
+      "name": "Jolteon",
+      "file_name": "jolteon",
+      "zone": "B2-04",
+      "captured": false
+    },
+    {
+      "name": "Squirtle",
+      "file_name": "squirtle",
+      "zone": "B2-06",
+      "captured": false
+    },
+    {
+      "name": "Porygon",
+      "file_name": "porygon",
+      "zone": "B2-08",
+      "captured": false
+    },
+    {
+      "name": "Jigglypuff",
+      "file_name": "jigglypuff",
+      "zone": "B2-10",
+      "captured": false
+    },
+    {
+      "name": "Charmander",
+      "file_name": "charmander",
+      "zone": "C1-30",
+      "captured": false
+    },
+    {
+      "name": "Pikachu",
+      "file_name": "pikachu",
+      "zone": "C1-49",
+      "captured": false
+    },
+    {
+      "name": "Magnemite",
+      "file_name": "magnemite",
+      "zone": "Corredor C1 Sudeste",
+      "captured": false
+    },
+    {
+      "name": "Electabuzz",
+      "file_name": "electabuzz",
+      "zone": "Corredor C1 Noroeste",
+      "captured": false
+    }
+  ]
+}

@@ -34,24 +34,25 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="29dp"
-            android:id="@+id/textView"
+            android:id="@+id/zoneName"
             android:textSize="22sp" />
 
         <TextView
             android:text="Pokémon name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/zoneName"
             android:layout_centerHorizontal="true"
-            android:id="@+id/textView2" />
+            android:id="@+id/pokemonName" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             app:srcCompat="@mipmap/ic_launcher"
-            android:id="@+id/imageView"
-            android:layout_below="@+id/textView2"
-            android:layout_centerHorizontal="true" />
+            android:id="@+id/pokemonMiniature"
+            android:layout_below="@+id/pokemonName"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"/>
 
         <Button
             android:layout_width="100dp"
@@ -60,14 +61,22 @@
             android:gravity="center"
             android:height="60dp"
             android:padding="6dp"
-            android:text="Capture"
+            android:text="Capturar"
             style="@style/Widget.AppCompat.Button.Colored"
             android:textColor="#000"
             android:textStyle="bold"
             android:id="@+id/captureButton"
-            android:layout_below="@+id/imageView"
+            android:layout_below="@+id/pokemonMiniature"
             android:layout_alignLeft="@+id/button"
             android:layout_alignStart="@+id/button"
             android:layout_marginTop="16dp" />
+
+        <TextView
+            android:text="Capturado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pokemonMiniature"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/capturedText" />
     </RelativeLayout>
 </FrameLayout>

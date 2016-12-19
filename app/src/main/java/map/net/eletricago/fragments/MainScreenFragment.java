@@ -76,6 +76,10 @@ public class MainScreenFragment extends android.app.Fragment {
     CountDownTimer timer;
 
 
+    public MainScreenFragment() {
+        // Required empty public constructor
+    }
+
     public CountDownTimer setTimer(final float totalTime, final OkHttpClient client) {
 
         return new CountDownTimer((long) (totalTime * 1000), 1) {
@@ -119,14 +123,6 @@ public class MainScreenFragment extends android.app.Fragment {
 
     }
 
-
-    public MainScreenFragment() {
-        // Required empty public constructor
-    }
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -146,7 +142,7 @@ public class MainScreenFragment extends android.app.Fragment {
             e.printStackTrace();
         }
 
-        progressBar.setMax((int) (5.0f * 1000));
+        progressBar.setMax((int) (2.0f * 1000));
 
 
 
@@ -311,7 +307,7 @@ public class MainScreenFragment extends android.app.Fragment {
                             if(timer != null){
                                 timer.cancel();
                             }
-                            timer = setTimer(5.0f,client);
+                            timer = setTimer(2.0f, client);
 
                         }
                     });
